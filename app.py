@@ -50,8 +50,9 @@ class Orders(db.Model):
     givenPayment = db.Column(db.Integer(),nullable=False,default=0) 
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id'))
     creater_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
-    # users = db.relationship("Users", backref=db.backref("users", uselist=False))
-
+    date = db.Column(db.DateTime(), nullable=True)
+    users = db.relationship("Users", backref=db.backref("users", uselist=False))
+   
 
 def token_required(f):
    @wraps(f)  
@@ -152,21 +153,37 @@ def login_user():
 @app.route('/checkOrders', methods=['GET', 'POST']) 
 @onlyChef
 def checkOrders(current_user):
-    orders = Orders.query.all()   
+    orders = Orders.query.filter_by(isNoted=0).all()  
 
-    # output = []  
+    output = [] 
 
-    # for author in authors:
-    #     author_data = {}  
-    #     author_data['name'] = author.name 
-    #     author_data['book'] = author.book 
-    #     author_data['country'] = author.country  
-    #     author_data['booker_prize'] = author.booker_prize
-    #     author_data['creater_name'] = author.creater.name
-    #     output.append(author_data)  
-    # return jsonify({'list_of_authors' : output})
+    for order in orders:
+        order_data = {}  
+        order_data['order'] = order.order 
+        order_data['isNoted'] = order.isNoted 
+        order_data['isBooked'] = order.isBooked  
+        order_data['total'] = order.total
+        order_data['givenPayment'] = order.givenPayment
+        # order_data['orderBy'] = order.role.name
+        order_data['userName'] = order.users.user_name
+        order_data['date'] = order.date
+        output.append(order_data)  
+    return jsonify({'list_of_orders' : output})
 
 
+@app.route('/bookOrder', methods=['GET', 'POST']) 
+@token_required
+def bookOrder(current_user):
+    data = request.get_json()
+    try:
+        create_order = Orders(order=data['order'],isNoted=0,isBooked=0,total=0,givenPayment=0,role_id=current_user.role_id,creater_id=current_user.id,date='2021-06-21')
+        db.session.add(create_order)  
+        db.session.commit()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        
+        return jsonify({'message':error,'code':403})
+    return jsonify({'message': 'Order Created successfully','code':200})
 
 
     
