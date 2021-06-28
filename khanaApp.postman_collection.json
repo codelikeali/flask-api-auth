@@ -35,6 +35,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "orderBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-tokens",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI4OWQzZTFjOS0zZmNjLTQ1OTItODk1OS1jNDJhMDU2NDlhYTQiLCJleHAiOjE2MjQ5MjM2NTB9.GwzdDdd0diE-ytgPAAq0x1Z4UwMMHMQ2_kY6vjhToIw"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_id\":1,\n    \"isNoted\":1,\n    \"created_id\":4,\n    \"isBooked\":1,\n    \"total\":300,\n    \"givenPaymen\":0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/orderBook",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"orderBook"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

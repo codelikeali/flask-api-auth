@@ -171,6 +171,26 @@ def checkOrders(current_user):
     return jsonify({'list_of_orders' : output})
 
 
+@app.route('/orderBook', methods=['GET', 'POST']) 
+@onlyChef
+def orderBook(current_user):
+    data = request.get_json()
+    try:
+        order = Orders.query.filter_by(id=data['order_id']).first()
+        order.isNoted = data['isNoted']
+        order.isBooked = data['isBooked']
+        order.total = data['total']
+        order.givenPaymen = data['givenPaymen']
+        db.session.commit()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        
+        return jsonify({'message':error,'code':403})
+
+    return jsonify({'message': 'Notification send to user.','code':200})
+
+
+
 @app.route('/bookOrder', methods=['GET', 'POST']) 
 @token_required
 def bookOrder(current_user):
