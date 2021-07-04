@@ -12,6 +12,8 @@ from sqlalchemy.sql import exists
 from sqlalchemy.exc import SQLAlchemyError  
 import werkzeug
 from base64 import b64encode
+from flask_socketio import SocketIO
+import json
 app = Flask(__name__) 
 
 app.config['SECRET_KEY']='Th1s1ss3cr3t'
@@ -19,7 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://phpmyadmin:Root!123@127.0.0.1/f
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True 
 cors = CORS(app)
 
-# socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*")
 app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)   
 
@@ -117,25 +119,30 @@ def signup_user():
       
     if request.method == 'POST':
         data = request.get_json()
-        # checkIfUser = User.query.filter_by(email=data['email']).count()
-        hashed_password = generate_password_hash(data['password'], method='sha256')
-        print(hashed_password)
-        public_uuid = str(uuid.uuid4())
-        try:
-            new_user = Users(public_id=public_uuid, user_name=data['username'], password=hashed_password, email=data['email'],contact=data['contact'],role_id=data['role']) 
-            db.session.add(new_user)  
-            db.session.commit()
+        checkIfUser = Users.query.filter_by(email=data['email']).first()
+        role = Roles.query.filter_by(id=data['role']).first()
 
-
-        except SQLAlchemyError as e:
-
-            error = str(e.__dict__['orig'])
         
-            return jsonify({'message':error,'code':403})
-         
-        token = jwt.encode({'public_id': public_uuid, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=300)}, app.config['SECRET_KEY'], algorithm="HS256")   
+            
+        if checkIfUser == None:
+            hashed_password = generate_password_hash(data['password'], method='sha256')
+            print(hashed_password)
+            public_uuid = str(uuid.uuid4())
+            try:
+                new_user = Users(public_id=public_uuid, user_name=data['username'], password=hashed_password, email=data['email'],contact=data['contact'],role_id=data['role']) 
+                db.session.add(new_user)  
+                db.session.commit()
 
-    return jsonify({'message': 'Registration successfully','token':token,'code':200})
+
+            except SQLAlchemyError as e:
+
+                error = str(e.__dict__['orig'])
+            
+                return jsonify({'message':error,'code':403})
+            
+            token = jwt.encode({'public_id': public_uuid, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=300)}, app.config['SECRET_KEY'], algorithm="HS256")   
+            return jsonify({'message': 'Registration successfully','token':token,'user_token':role.name,'code':200})
+        return make_response('Email Already Exist',  304, {'WWW.Authentication': 'Basic realm: "login required"'})
 
 
 @app.route('/login', methods=['GET', 'POST'])  
@@ -188,6 +195,7 @@ def orderBook(current_user):
         order.isNoted = data['isNoted']
         order.isBooked = data['isBooked']
         order.total = data['total']
+        # socketio.emit('getDoctorListSocket', {'room_list': room_list})
         order.givenPaymen = data['givenPaymen']
         db.session.commit()
     except SQLAlchemyError as e:
