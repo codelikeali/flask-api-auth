@@ -1,1 +1,52 @@
-<p>register works!</p>
+<form class="login-form" [formGroup]="form"  (submit)="register(form.value)">
+  <p class="login-text">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-lock fa-stack-1x"></i>
+    </span>
+  </p>
+  <mat-form-field class="example-full-width">
+    <mat-label>username</mat-label>
+    <input  autofocus="true" required="true" matInput formControlName="username" required >
+    <mat-error *ngIf="form.get('username').hasError('required')" class="login-forgot-pass">username is Required</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-label>email</mat-label>
+    <input  autofocus="true" required="true" matInput formControlName="email" required >
+    <mat-error *ngIf="form.get('email').hasError('required')" class="">Email is Required</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-label>password</mat-label>
+    <input  autofocus="true" required="true" matInput formControlName="password" required >
+    <mat-error *ngIf="form.get('password').hasError('required')" class="">Password is Required</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-label>contact</mat-label>
+    <input  type="text" placeholder="email" autofocus="true" required="true" matInput formControlName="contact" required >
+    <mat-error *ngIf="form.get('contact').hasError('required')" class="">Contact is Required</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill">
+    <mat-label>Select Role</mat-label>
+    <mat-select formControlName="role" required>
+      <mat-option mdInput >--</mat-option>
+      <mat-option mdInput *ngFor="let role of roles" #category [value]="role.id">
+                  {{ role.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('role').hasError('required')">Please choose a Role</mat-error>
+    <!-- <mat-hint>Please Select Category</mat-hint> -->
+  </mat-form-field>
+
+  <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Register</button>
+</form>
+<a href="#" class="login-forgot-pass">forgot password?</a>
+<div class="underlay-photo"></div>
+<div class="underlay-black"></div>

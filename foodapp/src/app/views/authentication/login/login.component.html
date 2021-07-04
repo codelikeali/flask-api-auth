@@ -1,1 +1,172 @@
-<p>login works!</p>
+<ul class="nav">
+  <li (click)="showLogin()">Login</li>
+  <li (click)="showSignup()">Sign up</li>
+  <li (click)="showForgotPassword()">Forgot password</li>
+  <li (click)="showSubscribe()">Subscribe</li>
+  <li (click)="showContactUs()">Contact us</li>
+</ul>
+<div class="wrapper">
+  <div class="rec-prism" #rec_prism>
+    <div class="face face-top">
+      <div class="content">
+        <h2>Subscribe</h2>
+        <small>Enter your email so we can send you the latest updates!</small>
+        <form   onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email">
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" (click)="showThankYou()">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-front">
+      <div class="content">
+        <h2>Sign in</h2>
+        <form [formGroup]="loginForm"  (submit)="loginData(loginForm.value)">
+          <div class="field-wrapper">
+            <mat-form-field class="example-full-width">
+            <input type="text" matInput autofocus="true" required="true"   placeholder="Email" formControlName="email" required >
+            <mat-error *ngIf="loginForm.get('email').hasError('required')" class="login-forgot-pass">username is Required</mat-error>
+            <!-- <input type="text" name="username" placeholder="username"> -->
+            <!-- <label>Email</label> -->
+          </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <!-- <input type="password" name="password" placeholder="password" autocomplete="new-password">
+            <label>password</label> -->
+
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput autofocus="true" required="true"   placeholder="Password" formControlName="password" required >
+              <mat-error *ngIf="loginForm.get('password').hasError('required')">pasword is Required</mat-error>
+              <!-- <input type="text" name="username" placeholder="username"> -->
+              <!-- <label>Email</label> -->
+            </mat-form-field>
+          </div>
+
+          <div class="field-wrapper">
+            <mat-form-field appearance="fill">
+              <mat-label>Select Role</mat-label>
+              <mat-select formControlName="role" required>
+                <mat-option mdInput >--</mat-option>
+                <mat-option mdInput *ngFor="let role of roles" #category [value]="role.id">
+                            {{ role.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="loginForm.get('role').hasError('required')">Please choose a Role</mat-error>
+              <!-- <mat-hint>Please Select Category</mat-hint> -->
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <!-- <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Register</button> -->
+            <input [disabled]="!loginForm.valid" type="submit" >
+          </div>
+          <span class="psw" (click)="showForgotPassword()">Forgot Password?   </span>
+          <span class="signup" (click)="showSignup()">Not a user?  Sign up</span>
+        </form>
+      </div>
+    </div>
+    <div class="face face-back">
+      <div class="content">
+        <h2>Forgot your password?</h2>
+        <small>Enter your email so we can send you a reset link for your password</small>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email">
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" (click)="showThankYou()">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-right">
+      <div class="content">
+        <h2>Sign up</h2>
+        <form [formGroup]="registerForm"  (submit)="registerData(registerForm.value)">
+          <div class="field-wrapper">
+            <mat-form-field class="example-full-width">
+              <mat-label>username</mat-label>
+              <input  autofocus="true" required="true" matInput formControlName="username" required >
+              <mat-error *ngIf="registerForm.get('username').hasError('required')" class="login-forgot-pass">username is Required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <mat-form-field class="example-full-width">
+              <mat-label>email</mat-label>
+              <input  autofocus="true" required="true" matInput formControlName="email" required >
+              <mat-error *ngIf="registerForm.get('email').hasError('required')" class="">Email is Required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <mat-form-field class="example-full-width">
+              <mat-label>password</mat-label>
+              <input  autofocus="true" required="true" matInput formControlName="password" required >
+              <mat-error *ngIf="registerForm.get('password').hasError('required')" class="">Password is Required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <mat-form-field class="example-full-width">
+              <mat-label>contact</mat-label>
+              <input  type="text" placeholder="email" autofocus="true" required="true" matInput formControlName="contact" required >
+              <mat-error *ngIf="registerForm.get('contact').hasError('required')" class="">Contact is Required</mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="field-wrapper">
+            <mat-form-field appearance="fill">
+              <mat-label>Select Role</mat-label>
+              <mat-select formControlName="role" required>
+                <mat-option mdInput >--</mat-option>
+                <mat-option mdInput *ngFor="let role of roles" #category [value]="role.id">
+                            {{ role.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registerForm.get('role').hasError('required')">Please choose a Role</mat-error>
+              <!-- <mat-hint>Please Select Category</mat-hint> -->
+            </mat-form-field>
+          </div>
+
+          <div class="field-wrapper">
+            <input [disabled]="!registerForm.valid" type="submit" >
+            <!-- <input type="submit" (click)="showThankYou()"> -->
+          </div>
+          <span class="singin" (click)="showLogin()">Already a user?  Sign in</span>
+        </form>
+      </div>
+    </div>
+    <div class="face face-left">
+      <div class="content">
+        <h2>Contact us</h2>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="name" placeholder="name">
+            <label>Name</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email">
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <textarea placeholder="your message"></textarea>
+            <label>your message</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" (click)="showThankYou()">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-bottom">
+      <div class="content">
+        <div class="thank-you-msg">
+          Thank you!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

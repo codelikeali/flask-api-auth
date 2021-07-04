@@ -11,6 +11,7 @@ import {
   Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
+import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from "./authentication.service";
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class ChefGuard implements CanActivate {
   mappingUrl: any;
   constructor(
     private router: Router,
+    private CookieService:CookieService,
     private authenticationService: AuthenticationService
   ) {}
   canActivate(
@@ -29,12 +31,17 @@ export class ChefGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const currentUser = this.authenticationService.currentUserValue;
+      debugger;
+    const token = this.CookieService.get('token');
+    const user_token = this.CookieService.get('user_token');
     // const currentUserGuest = this.guestService.currentUserValue;
-    if (currentUser) {
-      this.mappingUrl = localStorage.getItem("url");
-      localStorage.setItem("clickMapping", this.mappingUrl);
-      return false;
+    if (token!="" && token !=undefined) {
+      if(user_token=='chef'){
+        return true;
+      }
+      // this.mappingUrl = localStorage.getItem("url");
+      // localStorage.setItem("clickMapping", this.mappingUrl);
+
     }
 
     // not logged in so redirect to login page with the return url
