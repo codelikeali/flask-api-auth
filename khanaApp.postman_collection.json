@@ -72,6 +72,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "createMenue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-tokens",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI4OWQzZTFjOS0zZmNjLTQ1OTItODk1OS1jNDJhMDU2NDlhYTQiLCJleHAiOjE2MjQ5MjM2NTB9.GwzdDdd0diE-ytgPAAq0x1Z4UwMMHMQ2_kY6vjhToIw"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"menue\":\"Bryani\",\n    \"description\":\"Baba Bryani\",\n    \"qty\":1,\n    \"price\":250\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/createMenue",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"createMenue"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -109,11 +146,8 @@
 		},
 		{
 			"name": "Register",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -123,10 +157,58 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\":\"user@user.com\",\n    \"password\":\"useruser\",\n    \"username\":\"XYZ\",\n    \"role\":3,\n    \"contact\":\"030000000000\"\n}"
+					"raw": "{\n    \"email\":\"chef4@chef.com\",\n    \"password\":\"chef\",\n    \"username\":\"chef\",\n    \"role\":2,\n    \"contact\":\"03091234\"\n}"
 				},
 				"url": {
-					"raw": ""
+					"raw": "http://127.0.0.1:5000/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMenueList",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-tokens",
+						"type": "text",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI4OWQzZTFjOS0zZmNjLTQ1OTItODk1OS1jNDJhMDU2NDlhYTQiLCJleHAiOjE2MjU1MjM3NjZ9.i0biEfbdyfER1IO5a_UVQQob0mtd-lMPuR7L-abxZHM"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order_id\":1,\n    \"isNoted\":1,\n    \"created_id\":4,\n    \"isBooked\":1,\n    \"total\":300,\n    \"givenPaymen\":0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/getMenuesList",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"getMenuesList"
+					]
 				}
 			},
 			"response": []
@@ -143,6 +225,11 @@
 						"key": "Content-Type",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "x-access-tokens",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI4OWQzZTFjOS0zZmNjLTQ1OTItODk1OS1jNDJhMDU2NDlhYTQiLCJleHAiOjE2MjQ5MTcwNzJ9.J2__i_wW8_dD1gUkvyvJxvSB_t-YRouT_hAB0Y0aVMQ",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -150,7 +237,18 @@
 					"raw": "{\n    \"order\":\"1-Bottle,1-Cold drink,1-Bryani\"\n}"
 				},
 				"url": {
-					"raw": ""
+					"raw": "http://127.0.0.1:5000/bookOrder",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"bookOrder"
+					]
 				}
 			},
 			"response": []
