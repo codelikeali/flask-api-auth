@@ -45,6 +45,15 @@ class Users(db.Model):
     orders = db.relationship('Orders',backref='creater')
 
 
+class Menues(db.Model):
+    __tablename__ = 'menues'
+    id = db.Column(db.Integer(), primary_key=True)
+    menue = db.Column(db.String(100)) 
+    description = db.Column(db.String(250))
+    price = db.Column(db.Float())
+    qty = db.Column(db.Integer())
+
+
 
 
 class Orders(db.Model):
@@ -207,6 +216,22 @@ def orderBook(current_user):
 
 
 
+@app.route('/createMenue', methods=['GET', 'POST']) 
+@onlyChef
+def createMenue(current_user):
+    data = request.get_json()
+    try:
+        create_menues = Menues(menue=data['menue'],description=data['description'],qty=data['qty'],price=data['price'])
+        db.session.add(create_menues)  
+        db.session.commit()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        
+        return jsonify({'message':error,'code':403})
+    return jsonify({'message': 'Menue Created successfully','code':200})
+
+
+
 @app.route('/bookOrder', methods=['GET', 'POST']) 
 @token_required
 def bookOrder(current_user):
@@ -221,7 +246,22 @@ def bookOrder(current_user):
         return jsonify({'message':error,'code':403})
     return jsonify({'message': 'Order Created successfully','code':200})
 
+@app.route('/getMenuesList', methods=['GET', 'POST']) 
+@token_required
+def getMenuesList(current_user):
+    menues = Menues.query.all()  
 
+    output = [] 
+
+    for menue in menues:
+        menue_data = {}  
+        menue_data['menue'] = menue.menue 
+        menue_data['id'] = menue.id 
+        menue_data['price'] = menue.price  
+        menue_data['description'] = menue.description
+        
+        output.append(menue_data)  
+    return jsonify({'list_of_menues' : output})
     
 
 if  __name__ == '__app__':  
