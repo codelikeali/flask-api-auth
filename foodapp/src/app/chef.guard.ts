@@ -31,7 +31,6 @@ export class ChefGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-      debugger;
     const token = this.CookieService.get('token');
     const user_token = this.CookieService.get('user_token');
     // const currentUserGuest = this.guestService.currentUserValue;

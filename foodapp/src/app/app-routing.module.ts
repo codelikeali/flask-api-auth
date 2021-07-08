@@ -18,7 +18,7 @@ const routes: Routes = [
 
   {
     path: "chef",
-    component: ChefComponent,
+    // component: ChefComponent,
     canActivate: [ChefGuard],
     loadChildren: () =>
       import("./views/chef/chef.module").then(
@@ -29,7 +29,7 @@ const routes: Routes = [
 
   {
     path: "order",
-    component: OrderComponent,
+    // component: OrderComponent,
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./views/order/order.module").then(

@@ -19,12 +19,17 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
+
 
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     ToastrModule.forRoot(),
     ReactiveFormsModule,
     MatSelectModule,
+    MatSlideToggleModule,
     MatButtonToggleModule,
     MatTableModule,
     MatDialogModule,

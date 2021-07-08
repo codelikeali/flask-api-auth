@@ -1,0 +1,68 @@
+
+<div class="">
+  <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+  <div class="example-container mat-elevation-z8">
+  <mat-table mat-table [dataSource]="dataSource" matSort>
+
+
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let row">
+        <span class="mobile-label">ID:</span>
+        {{row.id}}</mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="menue">
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>menue</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let row">
+        <span class="mobile-label">ID:</span>
+        {{row.menue}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let row">
+        <span class="mobile-label">description:</span>
+        {{row.description}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>price</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let row">
+        <span class="mobile-label">price:</span>
+        {{row.price}}</mat-cell>
+    </ng-container>
+
+
+
+
+
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element" class="action-link">
+        <span class="mobile-label">Action</span>
+
+        <a class="btn btn-sm btn-danger" (click)="delete('Delete',element)">Delete</a>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </mat-table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
